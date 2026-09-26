@@ -29,25 +29,30 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use('/api', apiRateLimiter);
 
-// Serve static frontend UI (combining Frontend + Backend on http://localhost:5000)
+// Serve static frontend UI
 app.use(express.static(path.join(__dirname, '..')));
 
-// API Route Mounts
-app.use('/api/health', healthRoutes);
-app.use('/api/students', studentRoutes);
-app.use('/api/career-roles', roleRoutes);
-app.use('/api/skills', skillRoutes);
-app.use('/api/courses', courseRoutes);
-app.use('/api/jobs', jobRoutes);
-app.use('/api/opportunities', opportunityRoutes);
-app.use('/api/news', newsRoutes);
-app.use('/api/planner', plannerRoutes);
-app.use('/api/trends', trendRoutes);
-app.use('/api/learning-plan', learningPlanRoutes);
-app.use('/api/recommendations', recommendationRoutes);
-app.use('/api/search', searchRoutes);
-app.use('/api/branches', branchRoutes);
+// API Route Mounts (Support both /api/path and /path for Vercel Serverless Rewrites)
+const routes = [
+  ['health', healthRoutes],
+  ['students', studentRoutes],
+  ['career-roles', roleRoutes],
+  ['skills', skillRoutes],
+  ['courses', courseRoutes],
+  ['jobs', jobRoutes],
+  ['opportunities', opportunityRoutes],
+  ['news', newsRoutes],
+  ['planner', plannerRoutes],
+  ['trends', trendRoutes],
+  ['learning-plan', learningPlanRoutes],
+  ['recommendations', recommendationRoutes],
+  ['search', searchRoutes],
+  ['branches', branchRoutes]
+];
 
+routes.forEach(([pathName, router]) => {
+  app.use([`/api/${pathName}`, `/${pathName}`], router);
+});
 
 // Error Handling Middleware
 app.use(errorHandler);
