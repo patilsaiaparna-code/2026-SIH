@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>StudentHub | Learn What Matters. Find Where It Leads.</title>
+  <meta name="description" content="Career clarity platform for engineering students connecting industry trends, skills, courses, and verified job opportunities.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/main.css">
+  <link rel="stylesheet" href="css/components.css">
+</head>
+<body>
+  <!-- Sticky Header Container -->
+  <div id="header-container"></div>
+
+  <!-- Main View Container -->
+  <main id="app-content" class="app-container" aria-live="polite"></main>
+
+  <!-- Footer -->
+  <footer class="app-footer">
+    <div class="footer-inner">
+      <div class="footer-brand">
+        <span class="logo-icon">🎓</span>
+        <span class="logo-text">StudentHub</span>
+        <p class="footer-tagline">Career Clarity & Industry Trajectory Platform for Engineering Students</p>
+      </div>
+      <div class="footer-links">
+        <a href="#home">Home</a>
+        <a href="#news-skills">News & Skills</a>
+        <a href="#learn">Learn Catalog</a>
+        <a href="#opportunities">Opportunities</a>
+        <a href="#planner">Backward Planner</a>
+        <a href="#trend-checker">Trend Checker</a>
+        <a href="#x-days">I Have X Days</a>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>© 2026 StudentHub. All rights reserved. Zero-clutter, verified career guidance.</p>
+    </div>
+  </footer>
+
+  <!-- Universal Search Modal Overlay -->
+  <div id="search-modal" class="modal-overlay hidden" aria-hidden="true">
+    <div class="modal-card search-modal-card">
+      <div class="modal-header">
+        <h3>Universal Search</h3>
+        <button id="close-search-btn" class="icon-btn" aria-label="Close search">✕</button>
+      </div>
+      <div class="search-input-wrapper">
+        <span class="search-icon">🔍</span>
+        <input type="text" id="global-search-input" placeholder="Search skills, courses, internships, jobs, or news..." autofocus>
+      </div>
+      <div id="search-results-container" class="search-results-list">
+        <p class="search-placeholder-text">Type a keyword like <strong>Python</strong>, <strong>Data Analyst</strong>, or <strong>AWS</strong> to explore.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Reusable Detail Modal Container -->
+  <div id="detail-modal" class="modal-overlay hidden" aria-hidden="true">
+    <div class="modal-card detail-modal-card">
+      <button id="close-detail-btn" class="modal-close-btn" aria-label="Close modal">✕</button>
+      <div id="detail-modal-body"></div>
+    </div>
+  </div>
+
+  <!-- Application Entry Point (ES6 Modules) -->
+  <script type="module" src="js/app.js"></script>
+</body>
+</html>

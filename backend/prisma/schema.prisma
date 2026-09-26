@@ -1,0 +1,136 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Student {
+  id                    String   @id @default(uuid())
+  branch                String
+  year                  String
+  interest              String
+  targetRole            String
+  currentSkills         String[]
+  availableHoursPerWeek Int      @default(5)
+  availablePeriod       String   @default("30 Days")
+  createdAt             DateTime @default(now())
+  updatedAt             DateTime @updatedAt
+}
+
+model CareerRole {
+  id            String      @id @default(uuid())
+  name          String      @unique
+  title         String
+  category      String
+  description   String
+  averageSalary String
+  demandLevel   String
+  growthRate    String
+  roleSkills    RoleSkill[]
+}
+
+model Skill {
+  id           String      @id @default(uuid())
+  name         String      @unique
+  category     String
+  description  String
+  importance   String
+  demandBadge  String
+  whyItMatters String
+  roleSkills   RoleSkill[]
+  courses      Course[]
+}
+
+model RoleSkill {
+  id         String     @id @default(uuid())
+  roleId     String
+  skillId    String
+  importance String     @default("HIGH")
+  priority   Int        @default(1)
+  role       CareerRole @relation(fields: [roleId], references: [id], onDelete: Cascade)
+  skill      Skill      @relation(fields: [skillId], references: [id], onDelete: Cascade)
+
+  @@unique([roleId, skillId])
+}
+
+model Course {
+  id                    String    @id @default(uuid())
+  title                 String
+  platform              String
+  isFree                Boolean   @default(true)
+  hasCertificate        Boolean   @default(false)
+  price                 String    @default("Free")
+  url                   String
+  level                 String    @default("Beginner")
+  duration              String
+  skillId               String?
+  skill                 Skill?    @relation(fields: [skillId], references: [id], onDelete: SetNull)
+  learnerCount          Int?
+  learnerCountLabel     String?
+  learnerCountSource    String?
+  learnerCountSourceUrl String?
+  learnerCountVerifiedAt String?
+  learnerCountUpdatedAt DateTime?
+}
+
+model Project {
+  id             String   @id @default(uuid())
+  title          String
+  description    String
+  difficulty     String   @default("Intermediate")
+  estimatedHours Int      @default(20)
+  skillsUsed     String[]
+  repoUrl        String   @default("#")
+}
+
+model Internship {
+  id             String   @id @default(uuid())
+  title          String
+  company        String
+  location       String
+  isRemote       Boolean  @default(false)
+  stipend        String   @default("Unpaid")
+  requiredSkills String[]
+  eligibility    String   @default("Engineering Students")
+  applyUrl       String
+  source         String   @default("Company Portal")
+  postedDate     DateTime @default(now())
+}
+
+model Job {
+  id             String   @id @default(uuid())
+  title          String
+  company        String
+  location       String
+  isRemote       Boolean  @default(false)
+  salary         String   @default("Market Standard")
+  requiredSkills String[]
+  eligibility    String   @default("Fresh Graduates / 0-2 YOE")
+  applyUrl       String
+  source         String   @default("Verified Portal")
+  postedDate     DateTime @default(now())
+}
+
+model Trend {
+  id                  String   @id @default(uuid())
+  topic               String   @unique
+  trendLevel          String
+  entryJobRelevance   String
+  internshipRelevance String
+  takeaway            String
+  why                 String[]
+}
+
+model LearningPlan {
+  id             String   @id @default(uuid())
+  studentId      String?
+  targetRole     String
+  totalDays      Int
+  hoursPerWeek   Int
+  weeklySchedule Json
+  skillsToSkip   String[]
+  createdAt      DateTime @default(now())
+}
