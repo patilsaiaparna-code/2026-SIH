@@ -1,6 +1,12 @@
-const API_BASE_URL = (typeof window !== 'undefined' && window.location && window.location.origin && window.location.origin !== 'null' && window.location.origin !== 'file://')
-  ? `${window.location.origin}/api`
-  : 'http://localhost:5000/api';
+const API_BASE_URL = (function() {
+  if (typeof window === 'undefined' || !window.location || !window.location.origin) return 'http://localhost:5000/api';
+  const host = window.location.hostname;
+  if (host === 'localhost' || host === '127.0.0.1') return 'http://localhost:5000/api';
+  if (host.includes('github.io')) {
+    return 'https://2026-sih.vercel.app/api';
+  }
+  return `${window.location.origin}/api`;
+})();
 
 
 async function fetchApi(endpoint, options = {}) {
